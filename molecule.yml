@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+docker:
+  containers:
+    - name: ansible-role-haproxy
+      image: centos
+      image_version: 7
+      ansible_groups:
+        - group1
+verifier:
+  name: testinfra
