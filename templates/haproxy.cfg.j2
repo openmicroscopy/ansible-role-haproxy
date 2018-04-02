@@ -55,7 +55,6 @@ frontend {{ front.name }}
 {%   endif %}
 {% for frontvar in (front.vars | default([])) %}
     {{ frontvar }}
-{%   endfor %}
 {% endfor %}
 {% endfor %}
 
@@ -83,5 +82,5 @@ backend {{ back.name }}
 {%   endif %}
 {% for backvar in (back.vars | default([])) %}
     {{ backvar }}
-{%   endfor %}
+{% endfor %}
 {% endfor %}
