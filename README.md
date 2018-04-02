@@ -31,7 +31,7 @@ The user and group under which HAProxy should run. Only change this if you know 
 
     haproxy_frontends:
     - name: 'hafrontend'
-      address: '*:80'
+      address: ['*:80']
       mode: 'http'
       backend: 'habackend'
       # Optional:
