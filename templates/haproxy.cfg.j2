@@ -71,7 +71,7 @@ backend {{ back.name }}
     cookie {{ back.cookie }}
 {%   endif %}
 {%   for backend in back.servers %}
-    server {{ backend.name }} {{ backend.address }} {% if back.cookie | default('') | length > 0 %}cookie {{ backend.name }}{% endif %}{{% if backend.opts | default('') }} backend.opts{% endif %} {% if back.check | default(True) %}check{% endif %}
+    server {{ backend.name }} {{ backend.address }} {% if back.cookie | default('') | length > 0 %}cookie {{ backend.name }}{% endif %}{% if backend.opts | default('') %} {{ backend.opts }}{% endif %} {% if back.check | default(True) %}check{% endif %}
 
 {%   endfor %}
 {%   if back.timeout_connect | default('') | length > 0 %}
