@@ -53,6 +53,10 @@ frontend {{ front.name }}
     log 127.0.0.1 {{ haproxy_syslog_dest_tcp }}
 {%     endif %}
 {%   endif %}
+{% for frontvar in (front.vars | default([])) %}
+    {{ frontvar }}
+{%   endfor %}
+{% endfor %}
 {% endfor %}
 
 {% for back in haproxy_backends %}
@@ -77,4 +81,7 @@ backend {{ back.name }}
 {%   if back.timeout_server | default('') | length > 0 %}
     timeout server {{ back.timeout_server }}
 {%   endif %}
+{% for backvar in (back.vars | default([])) %}
+    {{ backvar }}
+{%   endfor %}
 {% endfor %}
