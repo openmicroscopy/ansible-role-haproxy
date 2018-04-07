@@ -37,7 +37,9 @@ defaults
 
 {% for front in haproxy_frontends %}
 frontend {{ front.name }}
-    bind {{ front.address }}
+{%   for addr in front.address %}
+    bind {{ addr }}
+{%   endfor %}
     mode {{ front.mode | default('http') }}
     default_backend {{ front.backend }}
 {%   for frontopt in (front.options | default([])) %}
@@ -53,6 +55,9 @@ frontend {{ front.name }}
     log 127.0.0.1 {{ haproxy_syslog_dest_tcp }}
 {%     endif %}
 {%   endif %}
+{% for frontvar in (front.vars | default([])) %}
+    {{ frontvar }}
+{% endfor %}
 {% endfor %}
 
 {% for back in haproxy_backends %}
@@ -68,7 +73,7 @@ backend {{ back.name }}
     cookie {{ back.cookie }}
 {%   endif %}
 {%   for backend in back.servers %}
-    server {{ backend.name }} {{ backend.address }} {% if back.cookie | default('') | length > 0 %}cookie {{ backend.name }}{% endif %} {% if back.check | default(True) %}check{% endif %}
+    server {{ backend.name }} {{ backend.address }} {% if back.cookie | default('') | length > 0 %}cookie {{ backend.name }}{% endif %}{% if backend.opts | default('') %} {{ backend.opts }}{% endif %} {% if back.check | default(True) %}check{% endif %}
 
 {%   endfor %}
 {%   if back.timeout_connect | default('') | length > 0 %}
@@ -77,4 +82,7 @@ backend {{ back.name }}
 {%   if back.timeout_server | default('') | length > 0 %}
     timeout server {{ back.timeout_server }}
 {%   endif %}
+{% for backvar in (back.vars | default([])) %}
+    {{ backvar }}
+{% endfor %}
 {% endfor %}
