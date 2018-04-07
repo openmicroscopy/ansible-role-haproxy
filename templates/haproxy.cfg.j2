@@ -37,8 +37,8 @@ defaults
 
 {% for front in haproxy_frontends %}
 frontend {{ front.name }}
-{%   for adr in front.address %}
-    bind {{ adr }}
+{%   for addr in front.address %}
+    bind {{ addr }}
 {%   endfor %}
     mode {{ front.mode | default('http') }}
     default_backend {{ front.backend }}
