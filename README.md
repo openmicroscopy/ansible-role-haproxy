@@ -32,8 +32,6 @@ The user and group under which HAProxy should run. Only change this if you know 
     haproxy_frontends:
     - name: 'hafrontend'
       address: '*:80'
-      extra_addresses:
-        - '*:8080'
       #bind_params: 'param1 param2'
       #extra bind parameters, 'ssl' for example
       mode: 'http'
@@ -42,6 +40,13 @@ The user and group under which HAProxy should run. Only change this if you know 
       backend: 'habackend'
       # Optional:
       timeout client: 10s
+    - name: 'hassl'
+      address: 
+        - '*:443'
+        - '*:8443'
+      bind_params: 'ssl'
+      mode: 'http'
+      backend: 'sslhabackend'
 
 List of HAProxy frontends.
 
@@ -62,6 +67,10 @@ List of HAProxy frontends.
         address: 192.168.0.2:80
       timeout connect 5s
       timeout server 20s
+    - name: 'sslhabackend'
+      servers:
+      - name: sslapp
+        address: 192.168.0.3:443
 
 List of HAProxy backends and servers to which HAProxy will distribute requests.
 
