@@ -36,6 +36,11 @@ defaults
   errorfile 504 /etc/haproxy/errors/504.http
 {% endif %}
 
+{% for proxy in haproxy_proxies %}
+{{ proxy.content }}
+{% endfor %}
+
+
 {% for front in haproxy_frontends %}
 frontend {{ front.name }}
     bind {{ front.address }} {{ front.bind_params |default('') }}
